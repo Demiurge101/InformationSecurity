@@ -17,4 +17,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    brute_force.h
+    brute_force.h \
+    customforwardlist.h

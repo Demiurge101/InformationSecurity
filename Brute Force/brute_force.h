@@ -1,6 +1,7 @@
 #ifndef BRUTE_FORCE_H
 #define BRUTE_FORCE_H
-#include <QVector>
+#include <customforwardlist.h>
+
 #include <string>
 #include <chrono>
 
@@ -19,7 +20,7 @@ public:
     int getTime(){ return time;}
 
 private:
-    QVector<char> dict;
+    CustomForwardList<char> dict;
     bool Status_lib;
 
     std::string cpass{};

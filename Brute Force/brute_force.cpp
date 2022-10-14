@@ -10,7 +10,7 @@ Brute_Force::~Brute_Force()
 {
     cpass.clear();
     tpass.clear();
-    dict.clear();
+    dict.clear_all();
 }
 
 bool Brute_Force::SetLib(Dictory d)
@@ -40,7 +40,10 @@ bool Brute_Force::SetLib(Dictory d)
     default:
         return false;
     }
+
     dict.push_back('\0');
+    dict.temp = dict.last;
+
     Status_lib = true;
     return true;
     }
@@ -62,18 +65,18 @@ void Brute_Force::Try_pass(int *result, int time_seconds)
         tpass.clear();
         tpass.resize(counter_dep);
         tpass = last_res;
-        tpass[0] = dict[counter_iter%dict.size()];
+        tpass[0] = (++dict).temp->Value;
             for(int j = 0; j < tpass.size(); j++){
-                if(tpass[j] == dict.last()){
+                if(tpass[j] == dict.last->Value){
                     if(tpass[j + 1] == NULL){
                         counter_dep++;
                         tpass.resize(counter_dep);
                         for(int k = 0; k < tpass.size(); k++)
-                            tpass[k] = dict.first();
+                            tpass[k] = dict.first->Value;
                     }
                     else{
-                        tpass[j+1] = dict[dict.indexOf(tpass[j+1])+1];
-                        tpass[j] = dict.first();
+                        tpass[j+1] = dict.find(tpass[j+1])->next->Value;
+                        tpass[j] = dict.first->Value;
                     }
                     }
                 last_res.resize(counter_dep);
