@@ -24,10 +24,14 @@ private:
     bool Status_lib;
 
     std::string cpass{};
-    std::string tpass{ };
+
+    CustomForwardList<char> _cpass, _tpass;
+    CustomForwardList<char> StrToCust(std::string str);
 
     unsigned long int counter_iter = 0;
     int time = 0;
+
+
 };
 
 #endif // BRUTE_FORCE_H
