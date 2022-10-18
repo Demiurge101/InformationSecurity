@@ -21,7 +21,6 @@ public:
 
     bool is_empty(){ return first == nullptr;}
     int  size();
-    void resize(int size, T Value);
     void push_back(T Value);
     void clear_all();
     Node<T>* find(T Value);
@@ -29,15 +28,20 @@ public:
     CustomForwardList<T>& operator++ (){
         Node<T>* p = temp;
         temp = p->next;
+        if(!temp)
+            temp = first;
         return *this;
     }
 
     Node<T>* operator[] (int index){
-        if(index >= this->size() || index < 0)
+        if(index < 0)
             return nullptr;
         Node<T>* p = first;
-        for(int i = 0; i < index; i++)
+        for(int i = 0; i < index; i++){
+            if(p->next == nullptr && i < index)
+                return nullptr;
             p = p->next;
+        }
         return p;
     }
 
@@ -97,26 +101,16 @@ int CustomForwardList<T>::size()
 }
 
 template<typename T>
-void CustomForwardList<T>::resize(int size, T Value)
-{
-    size = size - this->size();
-    for(int i = 0; i < size; i++)
-       push_back(Value);
-}
-
-template<typename T>
 void CustomForwardList<T>::push_back(T Value)
 {
    Node<T>* p = new Node<T>(Value);
      if (is_empty()) {
       first = p;
       last = p;
-      p->next = first;
    }
    else {
     last->next = p;
     last = p;
-    p->next = first;
     }
     temp = last;
 }
