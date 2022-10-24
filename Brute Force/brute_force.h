@@ -21,16 +21,15 @@ public:
 
 private:
     CustomForwardList<char> dict;
-    bool Status_lib;
+    CustomForwardList<char> _cpass, _tpass;
 
     std::string cpass{};
 
-    CustomForwardList<char> _cpass, _tpass;
     CustomForwardList<char> StrToCust(std::string str);
 
     unsigned long int counter_iter = 0;
     int time = 0;
-
+    bool Status_lib;
 
 };
 

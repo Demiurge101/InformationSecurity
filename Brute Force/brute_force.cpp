@@ -49,7 +49,7 @@ bool Brute_Force::SetLib(Dictory d)
         return false;
     }
 
-    dict.push_back('\0');
+    dict.push_back();
     Status_lib = true;
     return true;
     }
@@ -63,18 +63,16 @@ void Brute_Force::Try_pass(int *result, int time_seconds)
     if(!Status_lib)
         *result = -1;
     else{
-    int counter_dep = 1;
-    _tpass.push_back('\0');
+    _tpass.push_back();
     auto begin = std::chrono::high_resolution_clock::now();
 
     for(counter_iter = 0; _tpass != _cpass; counter_iter++){
         _tpass.first->Value = (++dict).temp->Value;
-            for(int j = 0; j < counter_dep; j++){
+            for(int j = 0; j < _tpass._size; j++){
                 if(_tpass[j]->Value == dict.last->Value){
                     if(_tpass[j + 1] == nullptr){
-                        counter_dep++;
-                        _tpass.push_back('\0');
-                        for(int k = 0; k < counter_dep; k++)
+                        _tpass.push_back();
+                        for(int k = 0; k < _tpass._size; k++)
                             _tpass[k]->Value = dict.first->Value;
                     }
                     else{

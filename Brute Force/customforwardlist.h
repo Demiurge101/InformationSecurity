@@ -18,10 +18,15 @@ public:
     Node<T>* first;
     Node<T>* temp;
     Node<T>* last;
+    Node<T>* midptr;
+
+    int _size = 0;
 
     bool is_empty(){ return first == nullptr;}
     int  size();
     void push_back(T Value);
+    void push_back();
+    Node<T>* Val_index(int index);
     void clear_all();
     Node<T>* find(T Value);
 
@@ -34,20 +39,30 @@ public:
     }
 
     Node<T>* operator[] (int index){
-        if(index < 0)
+        if(index >= _size || index < 0)
             return nullptr;
-        Node<T>* p = first;
-        for(int i = 0; i < index; i++){
-            if(p->next == nullptr && i < index)
-                return nullptr;
-            p = p->next;
+        if(index == 0)
+            return first;
+        if(index == _size - 1)
+            return last;
+        if(index == _size/2)
+            return midptr;
+        Node<T>* p = midptr;
+        if(index > _size/2){
+            for(int i = _size/2; i < index; i++)
+                p = p->next;
+            return p;
         }
-        return p;
+        else{
+            p = first;
+            for(int i = 0; i < index; i++)
+                p = p->next;
+            return p;
+        }
     }
 
     bool operator== (CustomForwardList<T> right){
-        int size = this->size();
-        if(size != right.size())
+        if(_size != right.size())
             return false;
         Node<T>* t1 = this->first;
         Node<T>* t2 = right.first;
@@ -58,15 +73,14 @@ public:
         if(t1->Value != t2->Value)
             return false;
         t1 = t1->next; t2 = t2->next;
-        for(int i = 1;t1->Value == t2->Value, i < size; t1 = t1->next, t2 = t2->next, i++)
+        for(int i = 1;t1->Value == t2->Value, i < _size; t1 = t1->next, t2 = t2->next, i++)
           if(t1->Value != t2->Value)
                return false;
         return true;
     }
 
     bool operator!= (CustomForwardList<T> right){
-        int size = this->size();
-        if(size != right.size())
+        if(_size != right.size())
             return true;
         Node<T>* t1 = this->first;
         Node<T>* t2 = right.first;
@@ -77,7 +91,7 @@ public:
         if(t1->Value != t2->Value)
             return true;
         t1 = t1->next; t2 = t2->next;
-        for(int i = 1;t1->Value == t2->Value, i < size; t1 = t1->next, t2 = t2->next, i++)
+        for(int i = 1;t1->Value == t2->Value, i < _size; t1 = t1->next, t2 = t2->next, i++)
            if(t1->Value != t2->Value)
                return true;
         return false;
@@ -112,7 +126,38 @@ void CustomForwardList<T>::push_back(T Value)
     last->next = p;
     last = p;
     }
-    temp = last;
+     temp = last;
+}
+
+template<typename T>
+void CustomForwardList<T>::push_back()
+{
+    Node<T>* p = new Node<T>('\0');
+      if (is_empty()) {
+       first = p;
+       last = p;
+    }
+    else {
+     last->next = p;
+     last = p;
+     }
+      temp = last;
+     _size = size();
+     midptr = Val_index(_size/2);
+}
+
+template<typename T>
+Node<T> *CustomForwardList<T>::Val_index(int index)
+{
+    if(index < 0)
+        return nullptr;
+    Node<T>* p = first;
+    for(int i = 0; i < index; i++){
+        if(p->next == nullptr && i < index)
+            return nullptr;
+        p = p->next;
+    }
+    return p;
 }
 
 template<typename T>
